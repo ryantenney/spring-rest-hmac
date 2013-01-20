@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- ====================================================================== -->
+	<!-- A P P E N D E R S -->
+	<!-- ====================================================================== -->
+
+	<!-- console -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{dd.MM.yyyy HH:mm:ss} *%-5p* %c{1}: %M - %m - (%F, line %L)%n" />
+		</layout>
+	</appender>
+
+
+	<appender name="file" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${catalina.home}/temp/erifly/logs/erifly.log" />
+		<param name="MaximumFileSize" value="2Mb" />
+		<param name="MaxBackupIndex" value="4" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{dd.MM.yyyy HH:mm:ss} *%-5p* %c{1}: %m (%F, line %L)%n" />
+		</layout>
+	</appender>
+
+
+
+	<!-- ====================================================================== -->
+	<!-- L O G G E R S -->
+	<!-- ====================================================================== -->
+
+
+
+	<root>
+		<level value="debug" />
+
+		<appender-ref ref="console" />
+
+		<appender-ref ref="file" />
+	</root>
+
+	
+
+</log4j:configuration>
