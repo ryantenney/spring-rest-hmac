@@ -1,13 +1,7 @@
-/**
- * 
- */
 package com.ericsson.erifly.security.filter;
 
-/**
- * @author Dhrubo
- *
- */
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,19 +19,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class RESTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+    private static final Logger log = LoggerFactory.getLogger(RESTAuthenticationFilter.class);
 
     private static final String API_KEY_PARAMETER_NAME = "apikey";
     private static final String REQUEST_SALT_PARAMETER_NAME = "salt";
     private static final String SECURE_HASH_PARAMETER_NAME = "signature";
 
     /**
-* @param defaultFilterProcessesUrl the default value for <tt>filterProcessesUrl</tt>.
-*/
+     * @param defaultFilterProcessesUrl the default value for <tt>filterProcessesUrl</tt>.
+     */
     protected RESTAuthenticationFilter(String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
     }
@@ -99,12 +91,12 @@ public class RESTAuthenticationFilter extends AbstractAuthenticationProcessingFi
     }
 
     /**
-* Provided so that subclasses may configure what is put into the authentication request's details
-* property.
-*
-* @param request that an authentication request is being created for
-* @param authRequest the authentication request object that should have its details set
-*/
+     * Provided so that subclasses may configure what is put into the authentication request's details
+     * property.
+     *
+     * @param request that an authentication request is being created for
+     * @param authRequest the authentication request object that should have its details set
+     */
     protected void setDetails(HttpServletRequest request, AbstractAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
@@ -115,8 +107,8 @@ public class RESTAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
     @Override
     /**
-* Because we require the API client to send credentials with every request, we must authenticate on every request
-*/
+     * Because we require the API client to send credentials with every request, we must authenticate on every request
+     */
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
         return true;
     }

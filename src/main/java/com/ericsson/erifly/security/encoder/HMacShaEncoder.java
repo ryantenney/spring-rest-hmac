@@ -1,12 +1,7 @@
-/**
- * 
- */
 package com.ericsson.erifly.security.encoder;
 
-/**
- * @author Dhrubo
- *
- */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.crypto.codec.Base64;
@@ -18,15 +13,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class HMacShaEncoder implements PasswordEncoder {
+
+    private static final Logger log = LoggerFactory.getLogger(HMacShaEncoder.class);
 
     private static final int DEFAULT_ENCRYPTION_STRENGTH = 128;
     private static final String ENCODING_FOR_ENCRYPTION = "UTF-8";
 
-    private boolean encodeHashAsBas64 = false;
+    private boolean encodeHashAsBase64 = false;
     private String algorithm;
 
     /**
@@ -52,7 +46,7 @@ public class HMacShaEncoder implements PasswordEncoder {
 
     public HMacShaEncoder(String algorithm, boolean encodeHashAsBase64) {
         this.algorithm = algorithm;
-        setEncodeHashAsBas64(encodeHashAsBase64);
+        setEncodeHashAsBase64(encodeHashAsBase64);
         //validity Check
         getMac();
 
@@ -76,7 +70,7 @@ public class HMacShaEncoder implements PasswordEncoder {
             mac.init(secretKey);
             hmacData = mac.doFinal(salt.toString().getBytes(ENCODING_FOR_ENCRYPTION));
 
-            if (isEncodeHashAsBas64()) {
+            if (isEncodeHashAsBase64()) {
                 return new String(Base64.encode(hmacData), ENCODING_FOR_ENCRYPTION);
             } else {
                 return new String(hmacData, ENCODING_FOR_ENCRYPTION);
@@ -110,12 +104,12 @@ public class HMacShaEncoder implements PasswordEncoder {
     }
 
 
-    public boolean isEncodeHashAsBas64() {
-        return encodeHashAsBas64;
+    public boolean isEncodeHashAsBase64() {
+        return encodeHashAsBase64;
     }
 
-    public void setEncodeHashAsBas64(boolean encodeHashAsBas64) {
-        this.encodeHashAsBas64 = encodeHashAsBas64;
+    public void setEncodeHashAsBase64(boolean encodeHashAsBase64) {
+        this.encodeHashAsBase64 = encodeHashAsBase64;
     }
 
 
